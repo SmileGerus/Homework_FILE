@@ -1,17 +1,17 @@
 from pprint import pprint
-def get_shop_list_by_dishes(dishes: list, person_count: int):
+def get_shop_list_by_dishes(dishes: list, person_count: int, book):
     ingredients = {}
+    new_ingredient = 0
     for dish in dishes:
         for ingredient in cook_book[dish]:
             if ingredient['ingredient_name'] in ingredients:
-                ingredient['quantity'] = ingredient['quantity'] * 2 + ingredients[ingredient['ingredient_name']]['quantity']
-                print(ingredient['quantity'])
-                print(ingredients[ingredient['ingredient_name']]['quantity'])
+                new_ingredient = ingredient['quantity'] * person_count + \
+                                         ingredients[ingredient['ingredient_name']]['quantity']
             else:
-                ingredient['quantity'] *= person_count
+                new_ingredient = ingredient['quantity'] * person_count
             ingredients[ingredient['ingredient_name']] = \
                 {'measure': ingredient['measure'],
-                 'quantity': ingredient['quantity']}
+                 'quantity': new_ingredient}
     pprint(ingredients)
 
 def create_cook_book(file, cou):
@@ -41,9 +41,8 @@ with open('recipes.txt', 'r', encoding='utf-8') as f:
 
 with open('recipes.txt', 'r', encoding='utf-8') as f:
     create_cook_book(f, cou)
-    print(cook_book)
 
-get_shop_list_by_dishes(['Фахитос', 'Омлет'], 2)
+get_shop_list_by_dishes(['Омлет', 'Омлет'], 2, cook_book)
 
 
 
